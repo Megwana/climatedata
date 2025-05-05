@@ -88,4 +88,4 @@ This program performs an analysis of global temperature anomaly data, focusing o
 
 1. Clone this repository:
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/Megwana/climatedata.git
