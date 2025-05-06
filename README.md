@@ -1,14 +1,14 @@
-# Climate Change Temperature Anomaly Analysis
+# Climate Change Indicators Analysis ⛅🌱
 
 ## Overview
 
-This program performs an analysis of global temperature anomaly data, focusing on both linear and polynomial regression models to predict future temperature trends. It uses data visualisations to help interpret the results and is designed to be user-friendly, providing clear feedback and interaction.
+This repository performs an analysis of global temperature data across 225 countries, focusing on both linear and polynomial regression models to predict future temperature trends. It uses data visualisations to help interpret the results and is designed to be user-friendly, providing clear feedback and interaction.
 
 ## Features
 
 ### **Data Loading & Cleaning**
 - **Loading the Data**:
-  - The program allows for dynamic loading of data from a user-provided file path.
+  - The program allows for dynamic data loading from a user-provided file path.
   - Filters out data specific to "Temperature" anomalies using string matching in the "Indicator" column.
   
 - **Data Transformation**:
