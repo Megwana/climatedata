@@ -1,5 +1,5 @@
 # Climate Change Indicators Analysis ⛅🌱
-
+![Climate Change Header Picture](./assets/readme_images/climate_h1.png "Earth half green, half dry and desolate")
 ## Overview
 
 This repository performs an analysis of global temperature data across 225 countries, focusing on both linear and polynomial regression models to predict future temperature trends. It uses data visualisations to help interpret the results and is designed to be user-friendly, providing clear feedback and interaction.
