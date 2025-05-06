@@ -150,7 +150,7 @@ def plot_polynomial_predictions(model, poly, future_df, X):
     plt.ylabel("Predicted Anomaly (°C)")
     plt.legend()
     plt.grid(True)
-    plt.savefig("polynomial_predictions.png")  # Save plot
+    plt.savefig("./assets/polynomial_predictions.png")  # Save plot
     plt.close()
 
 
@@ -164,7 +164,7 @@ def plot_line_chart(df_melted, country='United States'):
     plt.title(f"Temperature Anomalies in {country}")
     plt.ylabel("Anomaly (°C)")
     plt.grid(True)
-    plt.savefig(f"{country}_line_chart.png")  # Save plot
+    plt.savefig(f"./assets/{country}_line_chart.png")  # Save plot
     plt.close()
 
 
@@ -178,7 +178,7 @@ def plot_heatmap(pivot_df):
     plt.xlabel("Year")
     plt.ylabel("Country")
     plt.tight_layout()
-    plt.savefig("anomaly_heatmap.png")  # Save plot
+    plt.savefig("./assets/anomaly_heatmap.png")  # Save plot
     plt.close()
 
 
