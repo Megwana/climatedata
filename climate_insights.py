@@ -37,7 +37,7 @@ def load_and_filter_data(filepath):
 
 def melt_and_clean(df):
     """
-    Converts wide format to long format, 
+    Converts wide format to long format,
     handles missing data via interpolation.
     Parameters:
         df (pd.DataFrame): Raw dataframe.
@@ -109,7 +109,9 @@ def train_linear_model(df_melted):
     future_preds = model.predict(future_years)
 
     # Save predictions
-    future_df = pd.DataFrame({'Year': future_years.flatten(), 'Predicted_Anomaly': future_preds})
+    future_df = pd.DataFrame({
+        'Year': future_years.flatten(),
+        'Predicted_Anomaly': future_preds})
     future_df.to_csv("future_predictions_2035.csv", index=False)
     print("Saved future predictions to CSV.")
     return model, pivot_df
@@ -137,7 +139,10 @@ def train_polynomial_model(df_melted, degree=2):
     """
     Trains a polynomial regression model to capture non-linear trends.
     """
-    pivot_df = df_melted.pivot(index='Year', columns='Country', values='Anomaly').fillna(0)
+    pivot_df = df_melted.pivot(
+        index='Year',
+        columns='Country',
+        values='Anomaly').fillna(0)
     X = np.array(pivot_df.index).reshape(-1, 1)  # Years as feature
     y_global = pivot_df.mean(axis=1).values  # Global mean anomaly (averaged over countries)
 
@@ -160,8 +165,14 @@ def plot_polynomial_predictions(model, poly, future_df, X):
     y_range_pred = model.predict(X_range_poly)
 
     plt.figure(figsize=(10, 6))
-    sns.lineplot(x='Year', y='Predicted_Anomaly', data=future_df, label="Predicted Anomalies")
-    plt.plot(X_range, y_range_pred, label="Polynomial Regression Prediction", color='red')
+    sns.lineplot(
+        x='Year', y='Predicted_Anomaly',
+        data=future_df, label="Predicted Anomalies"
+        )
+    plt.plot(
+        X_range, y_range_pred,
+        label="Polynomial Regression Prediction",
+        color='red')
     plt.title("Predicted Global Temperature Anomalies (Polynomial Regression)")
     plt.xlabel("Year")
     plt.ylabel("Predicted Anomaly (°C)")
@@ -181,7 +192,10 @@ def plot_line_chart(df_melted, country='United States'):
     Plots a line chart for a specific country's temperature anomaly.
     """
     plt.figure(figsize=(10, 5))
-    sns.lineplot(x='Year', y='Anomaly', data=df_melted[df_melted['Country'] == country])
+    sns.lineplot(
+        x='Year',
+        y='Anomaly',
+        data=df_melted[df_melted['Country'] == country])
     plt.title(f"Temperature Anomalies in {country}")
     plt.ylabel("Anomaly (°C)")
     plt.grid(True)
@@ -252,15 +266,17 @@ def reflect_on_ethics():
     """
     Reflects on ethical considerations of data handling and communication.
     """
-    print(f"""
-    Ethical Reflection:
-    - Data was cleaned using interpolation, which must
-    be disclosed as it affects accuracy.
-    - Ensure visualisations are not misleading
-    by proper axis scaling and color schemes.
-    - Anomalies are sensitive indicators—misuse or
-    misinterpretation could fuel climate misinformation.
-    """)
+
+
+print(
+    "Ethical Reflection:\n"
+    "- Data was cleaned using interpolation,\n"
+    "which must be disclosed as it affects accuracy.\n"
+    "- Ensure visualisations are not misleading by \n"
+    "proper axis scaling and colour schemes.\n"
+    "- Anomalies are sensitive indicators—misuse \n"
+    "or misinterpretation could fuel climate misinformation."
+)
 
 # =================================================================
 #               SUMMARY REPORTING
@@ -284,22 +300,22 @@ def generate_summary(df_melted, model):
 if __name__ == "__main__":
     file_path = "climate_change_indicators.csv"
 
-    # Load and prepare data
+    # Load and prepare the data.
     raw_df = load_and_filter_data(file_path)
     analyse_missing_data(raw_df)
     df_clean = melt_and_clean(raw_df)
     model, pivot_df = train_linear_model(df_clean)
 
-    # Predict future anomalies (2035)
+    # Predict future anomalies for 2035.
     future_years = np.arange(2023, 2036).reshape(-1, 1)
     future_preds = model.predict(future_years)
 
-    # Save future predictions to CSV
+    # Save future predictions to a CSV file.
     future_df = pd.DataFrame({'Year': future_years.flatten(), 'Predicted_Anomaly': future_preds})
     future_df.to_csv("future_predictions_2035.csv", index=False)
     print("Saved future predictions to CSV.")
 
-    # Plot future predictions
+    # Plot future predictions.
     plot_future_predictions(future_df)
     model, poly, pivot_df = train_polynomial_model(df_clean, degree=2)
 
