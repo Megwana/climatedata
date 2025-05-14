@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -113,7 +114,7 @@ def plot_future_predictions(future_df):
     plt.xlabel("Year")
     plt.ylabel("Predicted Anomaly (°C)")
     plt.grid(True)
-    plt.savefig("future_predictions_2035.png")  # Save plot
+    plt.savefig("./assets/future_predictions_2035.png")  # Save plot in the assets folder
     plt.close()
 
 def train_polynomial_model(df_melted, degree=2):
@@ -142,7 +143,6 @@ def plot_polynomial_predictions(model, poly, future_df, X):
     y_range_pred = model.predict(X_range_poly)
 
     plt.figure(figsize=(10, 6))
-    # Use 'Predicted_Anomaly' from future_df instead of 'Anomaly'
     sns.lineplot(x='Year', y='Predicted_Anomaly', data=future_df, label="Predicted Anomalies")
     plt.plot(X_range, y_range_pred, label="Polynomial Regression Prediction", color='red')
     plt.title("Predicted Global Temperature Anomalies (Polynomial Regression)")
@@ -150,9 +150,8 @@ def plot_polynomial_predictions(model, poly, future_df, X):
     plt.ylabel("Predicted Anomaly (°C)")
     plt.legend()
     plt.grid(True)
-    plt.savefig("./assets/polynomial_predictions.png")  # Save plot
+    plt.savefig("./assets/polynomial_predictions.png")  # Save plot in the assets folder
     plt.close()
-
 
 
 def plot_line_chart(df_melted, country='United States'):
@@ -164,7 +163,7 @@ def plot_line_chart(df_melted, country='United States'):
     plt.title(f"Temperature Anomalies in {country}")
     plt.ylabel("Anomaly (°C)")
     plt.grid(True)
-    plt.savefig(f"./assets/{country}_line_chart.png")  # Save plot
+    plt.savefig(f"./assets/{country}_line_chart.png")  # Save plot in the assets folder
     plt.close()
 
 
@@ -178,7 +177,7 @@ def plot_heatmap(pivot_df):
     plt.xlabel("Year")
     plt.ylabel("Country")
     plt.tight_layout()
-    plt.savefig("./assets/anomaly_heatmap.png")  # Save plot
+    plt.savefig("./assets/anomaly_heatmap.png")  # Save plot in the assets folder
     plt.close()
 
 
@@ -194,7 +193,33 @@ def plot_boxplot_by_decade(df_melted):
     plt.xlabel("Decade")
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig("boxplot_by_decade.png")  # Save plot
+    plt.savefig("./assets/boxplot_by_decade.png")  # Save plot in the assets folder
+    plt.close()
+
+def plot_correlation_heatmap(pivot_df):
+    """
+    Plots a correlation heatmap across countries.
+    """
+    corr = pivot_df.corr()
+    plt.figure(figsize=(12, 10))
+    sns.heatmap(corr, cmap='coolwarm', center=0)
+    plt.title("Correlation of Temperature Anomalies Between Countries")
+    plt.tight_layout()
+    plt.savefig("./assets/correlation_heatmap.png")  # Save plot in the assets folder
+    plt.close()
+
+
+def plot_country_avg_bar(df_melted):
+    """
+    Plots a horizontal bar graph of average anomalies by country.
+    """
+    avg_by_country = df_melted.groupby('Country')['Anomaly'].mean().sort_values()
+    plt.figure(figsize=(12, 8))
+    avg_by_country.plot(kind='barh')
+    plt.title("Average Temperature Anomaly by Country")
+    plt.xlabel("Anomaly (°C)")
+    plt.tight_layout()
+    plt.savefig("./assets/country_avg_bar.png")  # Save plot in the assets folder
     plt.close()
 
 def business_insights(model):
@@ -224,31 +249,6 @@ def generate_summary(df_melted, model):
     summary = df_melted.groupby('Year')['Anomaly'].mean().reset_index(name='Global_Mean_Anomaly')
     summary.to_csv("global_anomaly_summary.csv", index=False)
     print("\nSaved global anomaly summary to CSV.")
-
-def plot_correlation_heatmap(pivot_df):
-    """
-    Plots a correlation heatmap across countries.
-    """
-    corr = pivot_df.corr()
-    plt.figure(figsize=(12, 10))
-    sns.heatmap(corr, cmap='coolwarm', center=0)
-    plt.title("Correlation of Temperature Anomalies Between Countries")
-    plt.tight_layout()
-    plt.savefig("correlation_heatmap.png")
-    plt.close()
-
-def plot_country_avg_bar(df_melted):
-    """
-    Plots a horizontal bar graph of average anomalies by country.
-    """
-    avg_by_country = df_melted.groupby('Country')['Anomaly'].mean().sort_values()
-    plt.figure(figsize=(12, 8))
-    avg_by_country.plot(kind='barh')
-    plt.title("Average Temperature Anomaly by Country")
-    plt.xlabel("Anomaly (°C)")
-    plt.tight_layout()
-    plt.savefig("country_avg_bar.png")
-    plt.close()
 
 
 # === MAIN EXECUTION BLOCK ===
